@@ -25,9 +25,15 @@ total_space=$(awk '{sum += $2} END {print sum}' "$OUTPUT_FILE")
 largest_file=$(awk 'BEGIN {max = 0} {if ($2 > max) {max = $2; file = $1}} END {print file, max}' "$OUTPUT_FILE")
 
 # Encontrar el archivo más pequeño
-smallest_file=$(awk 'BEGIN {min = 1/0} {if ($2 < min) {min = $2; file = $1}} END {print file, min}' "$OUTPUT_FILE")
+smallest_file=$(awk 'BEGIN {min = 999999999} {if ($2 < min) {min = $2; file = $1}} END {if (min != 999999999) print file, min}' "$OUTPUT_FILE")
 
 # Mostrar resultados
 echo "Espacio total ocupado por el directorio actual: $total_space bytes"
 echo "Fichero más grande: $largest_file"
-echo "Fichero más pequeño: $smallest_file"
+
+# Comprobar si se encontró un archivo más pequeño
+if [ -z "$smallest_file" ]; then
+    echo "Fichero más pequeño: No hay archivos válidos en el directorio."
+else
+    echo "Fichero más pequeño: $smallest_file"
+fi
