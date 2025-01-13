@@ -1,10 +1,11 @@
-#include <fcntl.h>    // Para open()
-#include <unistd.h>   // Para write(), read(), close()
-#include <dirent.h>   // Para opendir(), readdir(), closedir()
-#include <sys/stat.h> // Para stat()
-#include <string.h>   // Para strlen()
-#include <errno.h>    // Para manejo de errores
-#include <stdlib.h>   // Para exit()
+#include <stdio.h>      // Para snprintf
+#include <stdlib.h>     // Para exit
+#include <fcntl.h>      // Para open
+#include <unistd.h>     // Para write, read, close
+#include <dirent.h>     // Para opendir, readdir, closedir
+#include <sys/stat.h>   // Para stat
+#include <string.h>     // Para strlen
+#include <errno.h>      // Para manejo de errores
 
 #define OUTPUT_FILE "/tmp/lista_sz"
 
@@ -42,7 +43,7 @@ int main() {
 
         // Obtener información del fichero
         if (stat(entry->d_name, &file_stat) == -1) {
-            write(STDERR_FILENO, "Error al obtener información del fichero\n", 42);
+            write(STDERR_FILENO, "Error al obtener información del fichero\n", strlen("Error al obtener información del fichero\n"));
             continue;
         }
 
@@ -52,7 +53,7 @@ int main() {
 
         // Escribir en el archivo de salida
         if (write(output_fd, buffer, len) == -1) {
-            write(STDERR_FILENO, "Error al escribir en el archivo de salida\n", 44);
+            write(STDERR_FILENO, "Error al escribir en el archivo de salida\n", strlen("Error al escribir en el archivo de salida\n"));
             break;
         }
     }
